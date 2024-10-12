@@ -465,11 +465,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/elyothe/Desktop/ProjetStreamDeck/server/server.csproj",
+      "projectUniqueName": "/Users/elyothe/Desktop/WalpaperStreamDeck/WalpaperStreamDeck/WalpaperStreamDeck/server/server.csproj",
       "projectName": "server",
-      "projectPath": "/Users/elyothe/Desktop/ProjetStreamDeck/server/server.csproj",
+      "projectPath": "/Users/elyothe/Desktop/WalpaperStreamDeck/WalpaperStreamDeck/WalpaperStreamDeck/server/server.csproj",
       "packagesPath": "/Users/elyothe/.nuget/packages/",
-      "outputPath": "/Users/elyothe/Desktop/ProjetStreamDeck/server/obj/",
+      "outputPath": "/Users/elyothe/Desktop/WalpaperStreamDeck/WalpaperStreamDeck/WalpaperStreamDeck/server/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/elyothe/.nuget/NuGet/NuGet.Config"

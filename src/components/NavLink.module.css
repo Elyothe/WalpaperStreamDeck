@@ -1,8 +1,8 @@
 .nav {
-    background-color: #333;
+    background-color: #191818;
     color: white;
     padding: 20px;
-    text-align: center;
+    text-align: left; /* Changer le texte de l'ensemble du nav à gauche */
     width: 15%; /* Prend toute la largeur de la page */
     height: 100%;
     position: fixed; /* Reste en haut lors du défilement */
@@ -27,7 +27,26 @@
     cursor: pointer;
 }
 
-
 .item:hover {
     text-decoration: underline; /* Soulignement au survol */
+    
+}
+
+.button {
+    background-color: #191818; /* Couleur de fond par défaut */
+    color: white; /* Couleur du texte */
+    border: 2px solid transparent; /* Bordure par défaut */
+    border-radius: 5px; /* Coins arrondis */
+    padding: 10px 15px; /* Espacement interne */
+    transition: background-color 0.3s, border-color 0.3s; /* Transition pour couleur et bordure */
+    cursor: pointer; /* Curseur en forme de main */
+    text-align: left; /* Aligne le texte à gauche */
+    width: 100%; /* Prend toute la largeur du conteneur */
+}
+
+.button:hover {
+    background-color: rgb(255, 255, 255); /* Couleur de fond au survol */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Ombre légère pour donner un effet de profondeur */
+    color:rgba(0, 0, 0, 0.5)
+    
 }

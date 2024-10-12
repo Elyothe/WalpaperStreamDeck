@@ -23,34 +23,49 @@
 }
 
 .card:hover::before {
-    filter: blur(4px); /* Flou uniquement au survol */
+    filter: blur(10px); /* Flou uniquement au survol */
 }
 
 .card:hover {
     transform: translateY(-5px); /* Légère élévation au survol */
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Ombre légère */
+    box-shadow: 0 5px 16px rgba(255, 255, 255, 0.86); /* Ombre légère */
 }
 
-.card-image {
-    width: 50%; /* Prend toute la largeur */
-    height: 50%; /* Hauteur automatique pour conserver les proportions */
-    position: relative; /* Nécessaire pour z-index */
+.cardImage {
+    width: 100%; /* Prend toute la largeur */
+    height: 100%; /* Hauteur automatique pour conserver les proportions */
+    object-fit: cover; /* Assure que l'image remplit la carte */
 }
 
-.card-content {
+.cardContent {
     padding: 15px; /* Espacement interne */
     z-index: 1; /* Assure que le contenu est au-dessus du flou */
-    position: relative; /* Nécessaire pour z-index */
+    position: absolute; /* Nécessaire pour superposer le contenu */
+    top: 0; /* Place le contenu en haut */
+    left: 0; /* Aligne à gauche */
+    right: 0; /* Aligne à droite */
+    bottom: 0; /* Aligne en bas */
+    display: flex; /* Utilise flex pour centrer le texte */
+    flex-direction: column; /* Aligne le texte verticalement */
+    justify-content: center; /* Centre verticalement */
+    align-items: center; /* Centre horizontalement */
+    color: #ffffff; /* Couleur du texte */
+    opacity: 0; /* Commence invisible */
+    transition: opacity 0.3s; /* Transition douce pour l'opacité */
 }
 
-.card-title {
+.card:hover .cardContent {
+    opacity: 1; /* Rend le contenu visible au survol */
+}
+
+.cardTitle {
     font-size: 1.5rem; /* Taille de la police */
     margin: 0 0 10px 0; /* Espacement */
 }
 
-.card-description {
+.cardDescription {
     font-size: 1rem; /* Taille de la police */
-    color: #555; /* Couleur du texte */
+    color: #ffffff; /* Couleur du texte */
 }
 
 .button {
@@ -61,10 +76,6 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
-    position: absolute; /* Positionné par rapport à la carte */
-    bottom: 15px; /* Ajuste pour placer le bouton en bas */
-    left: 50%; /* Centre le bouton horizontalement */
-    transform: translateX(-50%); /* Centre le bouton horizontalement */
-    display: inline-block; /* Pour avoir un comportement en bloc */
     z-index: 1; /* Assure que le bouton est au-dessus du flou */
+    margin-top: 40%;
 }

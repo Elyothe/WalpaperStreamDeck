@@ -20,6 +20,8 @@ var app = builder.Build();
 // Configuration du pipeline HTTP
 app.UseRouting();
 
+app.UseStaticFiles(); 
+
 app.UseCors("AllowAll"); // Applique la politique CORS
 
 app.UseAuthorization();
