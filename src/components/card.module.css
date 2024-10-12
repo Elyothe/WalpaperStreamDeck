@@ -1,0 +1,70 @@
+.card {
+    position: relative; /* Nécessaire pour positionner le pseudo-élément */
+    border: 1px solid #ddd; /* Bordure légère */
+    border-radius: 8px; /* Coins arrondis */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre légère */
+    overflow: hidden; /* Cache tout débordement */
+    margin: 20px; /* Espacement autour des cartes */
+    width: 300px; /* Largeur fixe */
+    height: 200px;
+    transition: transform 0.2s; /* Effet de transition */
+}
+
+.card::before {
+    content: ''; /* Nécessaire pour un pseudo-élément */
+    position: absolute; /* Positionné par rapport à .card */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: inherit; /* Prend la couleur d'arrière-plan de la carte */
+    transition: filter 0.2s; /* Transition pour le flou */
+    z-index: 0; /* Met en arrière-plan */
+}
+
+.card:hover::before {
+    filter: blur(4px); /* Flou uniquement au survol */
+}
+
+.card:hover {
+    transform: translateY(-5px); /* Légère élévation au survol */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Ombre légère */
+}
+
+.card-image {
+    width: 50%; /* Prend toute la largeur */
+    height: 50%; /* Hauteur automatique pour conserver les proportions */
+    position: relative; /* Nécessaire pour z-index */
+}
+
+.card-content {
+    padding: 15px; /* Espacement interne */
+    z-index: 1; /* Assure que le contenu est au-dessus du flou */
+    position: relative; /* Nécessaire pour z-index */
+}
+
+.card-title {
+    font-size: 1.5rem; /* Taille de la police */
+    margin: 0 0 10px 0; /* Espacement */
+}
+
+.card-description {
+    font-size: 1rem; /* Taille de la police */
+    color: #555; /* Couleur du texte */
+}
+
+.button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    position: absolute; /* Positionné par rapport à la carte */
+    bottom: 15px; /* Ajuste pour placer le bouton en bas */
+    left: 50%; /* Centre le bouton horizontalement */
+    transform: translateX(-50%); /* Centre le bouton horizontalement */
+    display: inline-block; /* Pour avoir un comportement en bloc */
+    z-index: 1; /* Assure que le bouton est au-dessus du flou */
+}

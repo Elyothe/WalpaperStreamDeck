@@ -1,0 +1,33 @@
+.nav {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    width: 15%; /* Prend toute la largeur de la page */
+    height: 100%;
+    position: fixed; /* Reste en haut lors du défilement */
+    top: 0; /* Positionné en haut */
+    left: 0; /* Commence à gauche */
+    z-index: 1000; /* S'assure qu'il est au-dessus d'autres éléments */
+}
+
+.title {
+    margin: 0;
+    font-size: 2rem;
+}
+
+.menu {
+    list-style-type: none;
+    padding: 0;
+}
+
+.item {
+    display: block; /* Change en block pour un affichage vertical */
+    margin: 10px 0; /* Ajoute de l'espace vertical entre les éléments */
+    cursor: pointer;
+}
+
+
+.item:hover {
+    text-decoration: underline; /* Soulignement au survol */
+}
