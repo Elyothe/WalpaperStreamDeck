@@ -1,0 +1,8 @@
+/* Définition de la palette de couleurs personnalisée */
+:root {
+  --yellow-dorado: #ffd700;
+  --blue-custom: #1e3a8a;
+  --green-custom: #10b981;
+  --red-custom: #ef4444;
+  --dark-text: #000000;
+}

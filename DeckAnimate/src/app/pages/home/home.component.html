@@ -1,0 +1,46 @@
+<app-navbar></app-navbar>
+
+<div class="content"></div>
+
+<input
+  #fileInput
+  type="file"
+  style="display: none"
+  (change)="onFileSelected($event)"
+/>
+
+<div class="h-screen bg-[#FFD700] flex justify-center items-center flex-col">
+  <h1 class="text-4xl font-semibold text-black mb-6">
+    Click To Import Your GIF
+  </h1>
+
+  <div class="w-1/2 flex justify-center">
+    <button
+      (click)="openFileExplorer(fileInput)"
+      class="px-35 py-11 bg-[#FFD700] text-black text-3xl font-semibold border-2 hover:cursor-pointer border-black transition duration-300 ease-in-out"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="size-10"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+        />
+      </svg>
+    </button>
+  </div>
+
+  <div class="grid grid-cols-5 gap-2">
+    <div *ngFor="let segment of imageSegments">
+      <div class="card border p-2">
+        <img [src]="segment" class="w-full h-full object-cover" alt="Segment" />
+      </div>
+    </div>
+  </div>
+</div>
