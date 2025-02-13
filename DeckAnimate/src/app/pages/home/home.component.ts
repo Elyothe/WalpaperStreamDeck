@@ -2,24 +2,32 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { CommonModule } from '@angular/common';
+import { ListstreamdeckComponent } from '../../components/liststreamdeck/liststreamdeck.component';
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterOutlet, NavbarComponent, CommonModule],
+  imports: [NavbarComponent, CommonModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
   imageUrl: string | ArrayBuffer | null = null;
   imageSegments: string[] = [];
-  segmentWidth = 200; // Largeur de chaque segment en pixels
-  segmentHeight = 200; // Hauteur de chaque segment en pixels
+  segmentWidth = 100; // Largeur de chaque segment en pixels
+  segmentHeight = 100; // Hauteur de chaque segment en pixels
+  printTitle: boolean = true;
+  gap = 15; // Ecart entre les touches en pixels
+  image: HTMLImageElement | null = null;
+  newWidth: number = 0;
+  newHeight: number = 0;
 
   constructor() {}
 
   openFileExplorer(fileInput: HTMLInputElement): void {
-    fileInput.click(); // Ouvre l'explorateur de fichiers
+    fileInput.click();
   }
 
   onFileSelected(event: any): void {
@@ -28,9 +36,36 @@ export class HomeComponent {
       const reader = new FileReader();
       reader.onload = () => {
         this.imageUrl = reader.result;
+        this.image = new Image();
+        this.image.src = this.imageUrl as string;
+        this.image.onload = () => {
+          this.newWidth = this.image!.width;
+          this.newHeight = this.image!.height;
+        };
         this.sliceImage();
+        this.printTitle = false;
       };
       reader.readAsDataURL(file);
+    }
+  }
+
+  saveImage(): void {
+    if (this.image) {
+      const link = document.createElement('a');
+      link.href = this.image.src;
+      link.download = 'image.png';
+      link.click();
+    }
+  }
+
+  resizeImage(): void {
+    if (this.image) {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = this.newWidth;
+      canvas.height = this.newHeight;
+      ctx?.drawImage(this.image, 0, 0, this.newWidth, this.newHeight);
+      this.image.src = canvas.toDataURL();
     }
   }
 
@@ -41,25 +76,19 @@ export class HomeComponent {
         const width = img.width;
         const height = img.height;
 
-        // Calculer les nouvelles dimensions pour remplir 1000px x 600px tout en préservant le rapport d'aspect
-        const aspectRatio = width / height;
-        let newWidth = 1000;
-        let newHeight = 600;
+        // Calculer les dimensions pour découper en 15 segments égaux (3x5) en tenant compte de l'écart
+        const totalWidth = 5 * this.segmentWidth + 4 * this.gap;
+        const totalHeight = 3 * this.segmentHeight + 2 * this.gap;
 
-        if (aspectRatio > 1) {
-          // L'image est plus large que haute, donc on ajuste la hauteur pour respecter l'aspect
-          newHeight = Math.round(newWidth / aspectRatio);
-        } else {
-          // L'image est plus haute que large, donc on ajuste la largeur pour respecter l'aspect
-          newWidth = Math.round(newHeight * aspectRatio);
-        }
+        // Calculer le facteur de zoom pour remplir les segments sans déformer l'image
+        const scale = Math.max(totalWidth / width, totalHeight / height);
 
-        // Créer un canvas pour redimensionner l'image
+        // Créer un canvas pour découper l'image
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
-        canvas.width = newWidth;
-        canvas.height = newHeight;
-        ctx?.drawImage(img, 0, 0, newWidth, newHeight); // Redimensionner sans déformer
+        canvas.width = totalWidth;
+        canvas.height = totalHeight;
+        ctx?.drawImage(img, 0, 0, canvas.width, canvas.height);
 
         // Découper l'image en 15 segments (3x5)
         this.imageSegments = [];
@@ -71,12 +100,11 @@ export class HomeComponent {
             segmentCanvas.width = this.segmentWidth;
             segmentCanvas.height = this.segmentHeight;
 
-            // Découper chaque segment à partir du canvas redimensionné
-            // En utilisant un crop pour remplir chaque segment
+            // Découper chaque segment à partir du canvas en tenant compte de l'écart
             segmentCtx?.drawImage(
               canvas,
-              col * this.segmentWidth - 0, // Ajuster pour zoomer correctement
-              row * this.segmentHeight - 0, // Ajuster pour zoomer correctement
+              col * (this.segmentWidth + this.gap),
+              row * (this.segmentHeight + this.gap),
               this.segmentWidth,
               this.segmentHeight,
               0,
@@ -93,6 +121,18 @@ export class HomeComponent {
       };
       img.src = this.imageUrl as string;
     }
+  }
+
+  downloadAllSegments(): void {
+    const zip = new JSZip();
+    this.imageSegments.forEach((segment, index) => {
+      const imgData = segment.split(',')[1];
+      zip.file(`segment_${index + 1}.png`, imgData, { base64: true });
+    });
+
+    zip.generateAsync({ type: 'blob' }).then((content) => {
+      saveAs(content, 'image_segments.zip');
+    });
   }
 
   clearImage(): void {

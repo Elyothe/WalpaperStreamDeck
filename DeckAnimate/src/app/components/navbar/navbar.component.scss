@@ -1,0 +1,31 @@
+.container {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(240, 240, 240, 1) 100%
+  );
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.logo h1 {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.5rem;
+  color: #1a202c;
+}
+
+nav a {
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
+  color: #1a202c;
+  transition: color 0.3s ease-in-out, border-bottom 0.3s ease-in-out;
+}
+
+nav a:hover {
+  color: #3182ce;
+  border-bottom: 2px solid #3182ce;
+}
+
+nav img {
+  width: 24px;
+  height: 24px;
+}

@@ -1,23 +1,36 @@
 <app-navbar></app-navbar>
 
 <div class="content"></div>
-
 <input
   #fileInput
   type="file"
   style="display: none"
   (change)="onFileSelected($event)"
 />
+<div class="h-screen bg-gray-100 flex justify-center items-center flex-col">
+  <h1 class="text-6xl font-bold text-gray-800 animate-bounce mb-6">
+    DeckAnimate
+  </h1>
+  <div class="grid grid-cols-5 gap-4">
+    <div *ngFor="let segment of imageSegments">
+      <div class="card border p-2 rounded-lg shadow-md">
+        <img
+          [src]="segment"
+          class="w-[100px] h-[100px] object-cover rounded-lg"
+          alt="Segment"
+        />
+      </div>
+    </div>
+  </div>
 
-<div class="h-screen bg-[#FFD700] flex justify-center items-center flex-col">
-  <h1 class="text-4xl font-semibold text-black mb-6">
-    Click To Import Your GIF
+  <h1 *ngIf="printTitle" class="text-4xl font-semibold text-gray-800 mb-6">
+    Import Your GIF
   </h1>
 
   <div class="w-1/2 flex justify-center">
     <button
       (click)="openFileExplorer(fileInput)"
-      class="px-35 py-11 bg-[#FFD700] text-black text-3xl font-semibold border-2 hover:cursor-pointer border-black transition duration-300 ease-in-out"
+      class="mt-4 px-8 py-4 cursor-pointer bg-blue-500 text-white text-2xl font-semibold rounded-lg shadow-md hover:bg-blue-600 transition duration-300 ease-in-out"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -25,7 +38,7 @@
         viewBox="0 0 24 24"
         stroke-width="1.5"
         stroke="currentColor"
-        class="size-10"
+        class="w-6 h-6"
       >
         <path
           stroke-linecap="round"
@@ -36,11 +49,12 @@
     </button>
   </div>
 
-  <div class="grid grid-cols-5 gap-2">
-    <div *ngFor="let segment of imageSegments">
-      <div class="card border p-2">
-        <img [src]="segment" class="w-full h-full object-cover" alt="Segment" />
-      </div>
-    </div>
+  <div *ngIf="!printTitle" class="w-1/2 flex justify-center mt-4">
+    <button
+      (click)="downloadAllSegments()"
+      class="px-8 py-4 bg-blue-500 text-white text-2xl font-semibold rounded-lg shadow-md hover:bg-blue-600 transition duration-300 ease-in-out cursor-pointer"
+    >
+      Télécharger le pack d'images
+    </button>
   </div>
 </div>
