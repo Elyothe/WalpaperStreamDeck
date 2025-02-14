@@ -26,7 +26,21 @@
   <h1 *ngIf="printTitle" class="text-4xl font-semibold text-gray-800 mb-6">
     Import Your GIF
   </h1>
-
+  <div class="justify-center">
+    <h1 *ngIf="!printTitle" class="text-2xl font-semibold text-gray-800 mb-6">
+      Choose your StreamDeck
+    </h1>
+  </div>
+  <select
+    *ngIf="!printTitle"
+    id="deck"
+    (change)="onStreamDeckChange($event)"
+    class="text-1xl font-semibold text-gray-800"
+  >
+    <option *ngFor="let streamDeck of streamDecks" [value]="streamDeck">
+      {{ streamDeck }}
+    </option>
+  </select>
   <div class="w-1/2 flex justify-center">
     <button
       (click)="openFileExplorer(fileInput)"
@@ -54,7 +68,7 @@
       (click)="downloadAllSegments()"
       class="px-8 py-4 bg-blue-500 text-white text-2xl font-semibold rounded-lg shadow-md hover:bg-blue-600 transition duration-300 ease-in-out cursor-pointer"
     >
-      Télécharger le pack d'images
+      Dowload Pack Of Pictures
     </button>
   </div>
 </div>

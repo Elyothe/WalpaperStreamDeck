@@ -21,6 +21,8 @@ export class HomeComponent {
   printTitle: boolean = true;
   gap = 15; // Ecart entre les touches en pixels
   image: HTMLImageElement | null = null;
+  totalWidth: number = 0;
+  totalHeight: number = 0;
   newWidth: number = 0;
   newHeight: number = 0;
 
@@ -28,6 +30,24 @@ export class HomeComponent {
 
   openFileExplorer(fileInput: HTMLInputElement): void {
     fileInput.click();
+  }
+  streamDecks = ['15 Caps', '6 Caps', '32 Caps'];
+  selectedStreamDeck: string = '';
+
+  onStreamDeckChange(event: any) {
+    this.selectedStreamDeck = event.target.value;
+    if (this.selectedStreamDeck == this.streamDecks[0]) {
+      this.sliceImage(5, 3);
+      console.log(this.selectedStreamDeck);
+    }
+    if (this.selectedStreamDeck == this.streamDecks[1]) {
+      this.sliceImage(3, 2);
+      console.log(this.selectedStreamDeck);
+    }
+    if (this.selectedStreamDeck == this.streamDecks[2]) {
+      this.sliceImage(8, 4);
+      console.log(this.selectedStreamDeck);
+    }
   }
 
   onFileSelected(event: any): void {
@@ -42,7 +62,7 @@ export class HomeComponent {
           this.newWidth = this.image!.width;
           this.newHeight = this.image!.height;
         };
-        this.sliceImage();
+        this.sliceImage(5, 3);
         this.printTitle = false;
       };
       reader.readAsDataURL(file);
@@ -69,7 +89,7 @@ export class HomeComponent {
     }
   }
 
-  sliceImage(): void {
+  sliceImage(largeur: number, hauteur: number): void {
     if (this.imageUrl) {
       const img = new Image();
       img.onload = () => {
@@ -77,24 +97,27 @@ export class HomeComponent {
         const height = img.height;
 
         // Calculer les dimensions pour découper en 15 segments égaux (3x5) en tenant compte de l'écart
-        const totalWidth = 5 * this.segmentWidth + 4 * this.gap;
-        const totalHeight = 3 * this.segmentHeight + 2 * this.gap;
+        this.totalWidth = largeur * this.segmentWidth + 4 * this.gap;
+        this.totalHeight = hauteur * this.segmentHeight + 2 * this.gap;
 
         // Calculer le facteur de zoom pour remplir les segments sans déformer l'image
-        const scale = Math.max(totalWidth / width, totalHeight / height);
+        const scale = Math.max(
+          this.totalWidth / width,
+          this.totalHeight / height
+        );
 
         // Créer un canvas pour découper l'image
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
-        canvas.width = totalWidth;
-        canvas.height = totalHeight;
+        canvas.width = this.totalWidth;
+        canvas.height = this.totalHeight;
         ctx?.drawImage(img, 0, 0, canvas.width, canvas.height);
 
         // Découper l'image en 15 segments (3x5)
         this.imageSegments = [];
 
-        for (let row = 0; row < 3; row++) {
-          for (let col = 0; col < 5; col++) {
+        for (let row = 0; row < hauteur; row++) {
+          for (let col = 0; col < largeur; col++) {
             const segmentCanvas = document.createElement('canvas');
             const segmentCtx = segmentCanvas.getContext('2d');
             segmentCanvas.width = this.segmentWidth;
